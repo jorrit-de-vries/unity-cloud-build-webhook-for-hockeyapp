@@ -1,0 +1,93 @@
+<?php
+/*
+This file is part of Unity Cloud Build Webhook for HockeyApp
+Copyright (c) 2016 Jorrit de Vries
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/**
+ * The level of logging.
+ * 0 - debug
+ * 1 - info
+ * 2 - error
+ */
+define('CLOUD_BUILD_WEBHOOK_LOG_LEVEL', 1);
+/**
+ * Directory where the log file, named ucb_log.log, will be placed.
+ */
+define('CLOUD_BUILD_WEBHOOK_LOG_DIR', '<path_to_dir>');
+/**
+ * Directory to which the artifacts are downloaded. Once uploaded the artifacts
+ * will be removed from the server.
+ */
+define('CLOUD_BUILD_WEBHOOK_TMP_DIR', '<path_to_dir>');
+
+/**
+ *
+ */
+define('CLOUD_BUILD_API_URL', 'https://build-api.cloud.unity3d.com');
+/**
+ * The Unity Cloud Build project guid, used for identification of the webhook post data.
+ */
+define('CLOUD_BUILD_PROJECT_GUID', '<project_guid>');
+/**
+ * The Unity Cloud Build API key as available from https://build.cloud.unity3d.com/
+ * Preferences.
+ */
+define('CLOUD_BUILD_API_KEY', '<api_key>');
+/**
+ * Optional. Used to verify the SHA256 HMAC signature of the webhook body.
+ * Although optional, it is advised to use this for security reasons.
+ */
+define('CLOUD_BUILD_WEBHOOK_SECRET', '<secret>');
+
+/**
+ * The HockeyApp API Token as can be found in the account settings of the
+ * user which manages your HockeyApp apps.
+ */
+define('HOCKEYAPP_API_TOKEN', '<api_token>');
+/**
+ * See https://support.hockeyapp.net/kb/api/api-versions#upload-version
+ */
+define('HOCKEYAPP_UPLOAD_STRATEGY', 'add');
+/**
+ * See https://support.hockeyapp.net/kb/api/api-versions#upload-version
+ */
+define('HOCKEYAPP_UPDATE_MANDATORY', 0);
+/**
+ * The message which is submitted to HockeyApp with an upload, formatted
+ * with the following arguments, using sprintf.
+ * - project name
+ * - platform
+ * - build number
+ */
+define('HOCKEYAPP_UPLOAD_MESSAGE', '%s - %s #%d (Test)');
+
+/**
+ * A map of build target names pointing to HockeyApp app IDs which should
+ * be processed. This build target name is the target name under basic info
+ * of the target, and is case sensitive.
+ */
+define('CLOUD_BUILD_WEBHOOK_BUILD_TARGETS', serialize(array(
+	'<android_build_target_name>' => '<android_hockeyapp_app_id>',
+	'<ios_build_target_name>' => '<ios_hockeyapp_app_id>'
+)));
+
+?>

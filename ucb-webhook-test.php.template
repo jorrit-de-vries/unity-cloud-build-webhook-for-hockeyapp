@@ -1,0 +1,41 @@
+<?php
+/*
+Feel free to do whatever you want to do with this...
+*/
+
+function ucb_submit_test_data($headers, $data) {
+	$ch = curl_init();
+	curl_setopt_array($ch, array(
+		CURLOPT_URL => '<url_of_web_hook>', // The URL of the webhook as specified in the Unity Cloud Build interface.
+		CURLOPT_CUSTOMREQUEST => 'POST', 
+		CURLOPT_HTTPHEADER => $headers,
+		CURLOPT_POSTFIELDS => $data,
+		CURLOPT_RETURNTRANSFER => 1
+	));
+	
+	$error_message = null;
+	$result = curl_exec($ch);
+	if ($result === FALSE) {
+		$error_message = curl_error($ch);
+	}
+	curl_close($ch);
+	
+	echo 'Result: ' . $result . ', error: ' . $error_message;
+}
+
+function ucb_do_submit_test_data() {
+	$data = '<content_of_webhook_event>'; // To obtained from log after first call
+	$headers = array(
+		'X-UnityCloudBuild-HookId: <id>', // A numerical id, ie. 12, to obtained from log after first call
+		'X-UnityCloudBuild-Event: ProjectBuildSuccess', // The only supported event
+		'X-UnityCloudBuild-DeliveryId: <id>', // A guid of the content delivery, to obtained from log after first call
+		'X-UnityCloudBuild-Signature: <sha256>', // Optional. sha256 HMAC signature if secret has been specified, to obtained from log after first call
+		'Content-Type: application/json',
+		'Content-Length: ' . strlen($data)
+	);
+	
+	ucb_submit_test_data($headers, $data);
+}
+
+ucb_do_submit_test_data();
+?>
