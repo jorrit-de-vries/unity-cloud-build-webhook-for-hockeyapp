@@ -24,12 +24,12 @@ function ucb_submit_test_data($headers, $data) {
 }
 
 function ucb_do_submit_test_data() {
-	$data = '<content_of_webhook_event>'; // To obtained from log after first call
+	$data = '<content_of_webhook_event>'; // To be obtained from log after first call
 	$headers = array(
-		'X-UnityCloudBuild-HookId: <id>', // A numerical id, ie. 12, to obtained from log after first call
+		'X-UnityCloudBuild-HookId: <id>', // A numerical id, ie. 12, to be obtained from log after first call
 		'X-UnityCloudBuild-Event: ProjectBuildSuccess', // The only supported event
-		'X-UnityCloudBuild-DeliveryId: <id>', // A guid of the content delivery, to obtained from log after first call
-		'X-UnityCloudBuild-Signature: <sha256>', // Optional. sha256 HMAC signature if secret has been specified, to obtained from log after first call
+		'X-UnityCloudBuild-DeliveryId: <id>', // A guid of the content delivery, to be obtained from log after first call
+		'X-UnityCloudBuild-Signature: <sha256>', // Optional. sha256 HMAC signature if secret has been specified, to be obtained from log after first call
 		'Content-Type: application/json',
 		'Content-Length: ' . strlen($data)
 	);

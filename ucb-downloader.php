@@ -122,10 +122,11 @@ class UCBIOSDownloader extends UCBDownloader {
 		
 		$filename = basename($json['projectVersion']['filename'], '.ipa');
 		
-		$ipa_filename = $filename . '-' . date('dmy-Gis') . '.ipa';
+		$date = date('dmy-Gis');
+		$ipa_filename = $filename . '-' . $date . '.ipa';
 		$ipa_path = $target_dir . '/' .$ipa_filename;
 		
-		$dsym_filename = $filename . '-' . date('dmy-Gis') . '.dSYM.zip';
+		$dsym_filename = $filename . '-' . $date . '.dSYM.zip';
 		$dsym_path = $target_dir . '/' .$dsym_filename;
 		
 		// Download ipa
@@ -141,7 +142,7 @@ class UCBIOSDownloader extends UCBDownloader {
 }
 
 /**
- * IOS implementation of UCBDownloader to download apk files.
+ * Android implementation of UCBDownloader to download apk files.
  */
 class UCBAndroidDownloader extends UCBDownloader {
 	
