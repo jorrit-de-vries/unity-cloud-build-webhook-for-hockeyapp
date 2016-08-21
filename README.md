@@ -13,7 +13,8 @@ Download or clone the into a directory on your web server accesible over http.
 https has not been tested. Configure the webhook on the Unity Cloud Build side
 so it points to <your_domain/some_dir/ucb-webhook.php>. Create a copy of
 `settings.php.template` and name that copy `settings.php`. Fill in the correct
-details. Make sure the webhook endpoint works without errors.
+details - ensure the values enclosed by '<>' are set. Make sure the webhook
+endpoint works without errors.
 
 Testing
 -------
