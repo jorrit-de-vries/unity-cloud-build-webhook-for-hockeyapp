@@ -26,9 +26,26 @@ require_once('ucb-settings.php');
 require_once('ucb-log.php');
 require_once('ucb-downloader.php');
 
-// See http://php.net/manual/en/function.date-default-timezone-set.php
-// Set to correct timezone if required by your server
-//date_default_timezone_set('Europe/Amsterdam');
+/**
+ * For environments where getallheaders not is defined.
+ *
+ * See http://stackoverflow.com/questions/13224615/get-the-http-headers-from-current-request-in-php
+ */
+if (!function_exists('getallheaders')) {
+	function getallheaders() {
+		if (!is_array($_SERVER)) {
+			return array();
+		}
+		
+		$headers = array();
+		foreach ($_SERVER as $name => $value) {
+			if (substr($name, 0, 5) == 'HTTP_') {
+				$headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+			}
+		}
+		return $headers;
+	}
+}
 
 /**
  * Starts the execution of the Unity Cloud Build webhook. If no content is found,

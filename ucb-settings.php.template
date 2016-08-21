@@ -22,6 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// See http://php.net/manual/en/function.date-default-timezone-set.php
+// Set to correct timezone if required by your server
+//date_default_timezone_set('Europe/Amsterdam');
+
 /**
  * The level of logging.
  * 0 - debug
@@ -31,11 +35,15 @@ SOFTWARE.
 define('CLOUD_BUILD_WEBHOOK_LOG_LEVEL', 1);
 /**
  * Directory where the log file, named ucb_log.log, will be placed.
+ *
+ * Note this directory is not created if it doesn't exist.
  */
 define('CLOUD_BUILD_WEBHOOK_LOG_DIR', '<path_to_dir>');
 /**
  * Directory to which the artifacts are downloaded. Once uploaded the artifacts
  * will be removed from the server.
+ *
+ * Note this directory is not created if it doesn't exist.
  */
 define('CLOUD_BUILD_WEBHOOK_TMP_DIR', '<path_to_dir>');
 
