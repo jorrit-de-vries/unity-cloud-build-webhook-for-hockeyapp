@@ -1,7 +1,7 @@
 Unity Cloud Build Webhook for HockeyApp
 =======================================
 
-This package contains an implementation of a [Unity Cloud Build WebHook](https://build-api.cloud.unity3d.com/docs/1.0.0/index.html#operation-webhooks-intro).
+This package contains an implementation of a [Unity Cloud Build Webhook](https://build-api.cloud.unity3d.com/docs/1.0.0/index.html#operation-webhooks-intro).
 The webhook listens for `ProjectBuildSuccess` events, downloads the
 respective build artifacts for iOS and Android and uploads them to a
 [HockeyApp](https://hockeyapp.net) environment.
