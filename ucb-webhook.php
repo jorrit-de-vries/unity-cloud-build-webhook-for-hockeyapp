@@ -58,6 +58,12 @@ function ucb_execute_webhook() {
 		return;
 	}
 	
+	// Check if project guid is available
+	if (!isset($json['projectGuid'])) {
+		ucb_log_info('Ignore request; no project GUID has been set.');
+		return;
+	}
+	
 	// Check project guid
 	if (strcmp($json['projectGuid'], CLOUD_BUILD_PROJECT_GUID) !== 0) {
 		ucb_log_error('An attempt has been made to use the webhook for another project identified by ' . $json['projectGuid']);
