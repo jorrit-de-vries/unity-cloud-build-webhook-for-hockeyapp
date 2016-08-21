@@ -285,6 +285,8 @@ function ucb_upload_build($platform, $app_id, $artifact_paths, $message) {
 	if (isset($error_message)) {
 		throw new Exception($error_message);
 	}
+	
+	ucb_log_info('Upload of artifacts completed');
 }
 
 ucb_execute_webhook();
