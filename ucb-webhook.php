@@ -29,7 +29,7 @@ require_once('ucb-downloader.php');
 /**
  * For environments where getallheaders not is defined.
  *
- * See http://stackoverflow.com/questions/13224615/get-the-http-headers-from-current-request-in-php
+ * Code is taken from http://php.net/manual/en/function.getallheaders.php
  */
 if (!function_exists('getallheaders')) {
 	function getallheaders() {
@@ -64,20 +64,24 @@ function ucb_execute_webhook() {
 	ucb_log_debug('Headers: ' . PHP_EOL . print_r($headers, true));
 	ucb_log_debug('Content: ' . PHP_EOL . $content);
 	
-	// Check if headers contain X-UnityCloudBuild-Event
-	if (!isset($headers['X-UnityCloudBuild-Event'])) {
+	// Check if headers contain X-UnityCloudBuild-Event or X-Unitycloudbuild-Event
+	$cloud_build_event = '';
+	
+	if (isset($headers['X-UnityCloudBuild-Event'])) {
+		$cloud_build_event = $headers['X-UnityCloudBuild-Event'];
+	}
+	else if (isset($headers['X-Unitycloudbuild-Event'])) {
+		$cloud_build_event = $headers['X-Unitycloudbuild-Event'];
+	}
+	
+	if (strcmp($cloud_build_event, 'ProjectBuildSuccess') !== 0) {
+		ucb_log_info("Unsupported cloud build event '" . $cloud_build_event . "'.");
 		return;
 	}
 	
 	$json = json_decode($content, true);
 	if (json_last_error() != JSON_ERROR_NONE) {
 		ucb_log_error('Decode of content failed: ' . json_last_error_msg());
-		return;
-	}
-	
-	// Check if project guid is available
-	if (!isset($json['projectGuid'])) {
-		ucb_log_info('Ignore request; no project GUID has been set.');
 		return;
 	}
 	
@@ -103,7 +107,7 @@ function ucb_execute_webhook() {
 		}
 		
 		// Retrieve build status
-		$result = ucb_get_build_status(CLOUD_BUILD_API_KEY, $headers, $json);
+		$result = ucb_get_build_status(CLOUD_BUILD_API_KEY, $json);
 		
 		// Decod build status json
 		$build_status_json = json_decode($result, true);
@@ -153,9 +157,17 @@ function ucb_execute_webhook() {
  *
  */
 function ucb_validate_content($headers, $content, $webhook_secret) {
+	$server_signature = '';
+	
 	if (isset($headers['X-UnityCloudBuild-Signature'])) {
-		// Generate client signature
 		$server_signature = $headers['X-UnityCloudBuild-Signature'];
+	}
+	else if (isset($headers['X-Unitycloudbuild-Signature'])) {
+		$server_signature = $headers['X-Unitycloudbuild-Signature'];
+	}
+	
+	if (strlen($server_signature) > 0) {
+		// Generate client signature
 		$client_signature = hash_hmac('sha256', $content, $webhook_secret);
 		if (strcmp($server_signature, $client_signature) !== 0) {
 			throw new Exception('Content validation failed, server=' . $server_signature .
@@ -172,11 +184,7 @@ function ucb_validate_content($headers, $content, $webhook_secret) {
 /**
  *
  */
-function ucb_get_build_status($api_key, $headers, $json) {
-	if (strcmp($headers['X-UnityCloudBuild-Event'], 'ProjectBuildSuccess') !== 0) {
-		throw new Exception("Unsupported cloud build event '" . $headers['X-UnityCloudBuild-Event'] . "'");
-	}
-	
+function ucb_get_build_status($api_key, $json) {
 	// Obtain api request URL so we can retrieve more details regarding the build
 	$url = CLOUD_BUILD_API_URL . $json['links']['api_self']['href'];
 	ucb_log_info('Get build status from ' . $url);
@@ -260,7 +268,8 @@ function ucb_upload_build($platform, $app_id, $artifact_paths, $message) {
 		CURLOPT_HTTPHEADER => array(
 			'X-HockeyAppToken: ' . HOCKEYAPP_API_TOKEN
 		),
-		CURLOPT_POSTFIELDS => $postFields
+		CURLOPT_POSTFIELDS => $postFields,
+		CURLOPT_SSL_VERIFYPEER => FALSE // When not set to FALSE, uploads might fail
 	));
 	$result = curl_exec($ch);
 	
