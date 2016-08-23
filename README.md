@@ -35,9 +35,8 @@ posting mechanism. Don't forget to remove the test file once your done.
 Notes
 -----
 
-This package doesn't pretend to be the best or most secure php code, as writing
-php is not my daily routine. Suggestions for improvement and security are more
-than welcome.
+This package doesn't pretend to be the best php code, as writing php is not my
+daily routine. Suggestions for improvement and security are more than welcome.
 
 The scripts have been tested on a VPS running CentOS 7 with PHP 5.4, and on a
 domain hosted by MediaTemple, running PHP 5.5.
