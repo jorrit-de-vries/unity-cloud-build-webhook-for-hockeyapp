@@ -41,4 +41,4 @@ prepending the file path with `'@'`.
 This package doesn't pretend to be the best php code, as writing php is not my
 daily routine. Suggestions for improvement and security are more than welcome.
 
-The scripts have been tested on a on a domain hosted by MediaTemple, running PHP 7.
+The scripts have been tested on a domain hosted by MediaTemple, running PHP 7.
