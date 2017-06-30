@@ -36,7 +36,7 @@ Notes
 -----
 
 When running PHP < 5.5, you might want to change the usage of `CURLFile` to
-prepending the file path with '@'.
+prepending the file path with `'@'`.
 
 This package doesn't pretend to be the best php code, as writing php is not my
 daily routine. Suggestions for improvement and security are more than welcome.
