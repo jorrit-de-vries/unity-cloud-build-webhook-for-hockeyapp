@@ -255,10 +255,10 @@ function ucb_upload_build($platform, $app_id, $artifact_paths, $message) {
 		'strategy' => HOCKEYAPP_UPLOAD_STRATEGY,
 		'mandatory' => HOCKEYAPP_UPDATE_MANDATORY,
 		'notes' => $message,
-		'ipa' => '@' . $ipa
+		'ipa' => new CURLFile($ipa)
 	);
 	if (isset($dSYM)) {
-		$postFields['dsym'] = '@' . $dSYM;
+		$postFields['dsym'] = new CURLFile($dSYM);
 	}
 	
 	$ch = curl_init();
