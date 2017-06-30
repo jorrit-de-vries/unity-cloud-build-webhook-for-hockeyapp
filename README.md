@@ -30,7 +30,7 @@ server error log to look for possible errors in the php code, and at the
 
 In the log file you can find both the headers and the body of the event, which
 can be used to test your setup. See `ucb-webhook-test.php.template` for a simple
-posting mechanism. Don't forget to remove the test file once your done.
+posting mechanism. Don't forget to remove the test file once you're done.
 
 Notes
 -----
