@@ -35,10 +35,8 @@ posting mechanism. Don't forget to remove the test file once you're done.
 Notes
 -----
 
-When running PHP < 5.5, you might want to change the usage of `CURLFile` to
-prepending the file path with `'@'`.
-
 This package doesn't pretend to be the best php code, as writing php is not my
 daily routine. Suggestions for improvement and security are more than welcome.
 
-The scripts have been tested on a domain hosted by MediaTemple, running PHP 7.
+The scripts have been tested on a domain hosted by MediaTemple, running PHP 7,
+although they should work on PHP 5.4+ as well.
