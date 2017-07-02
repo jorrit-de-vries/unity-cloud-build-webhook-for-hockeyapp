@@ -48,6 +48,19 @@ if (!function_exists('getallheaders')) {
 }
 
 /**
+ * For environments where curl_file_create not is defined.
+ *
+ * Code is taken from http://php.net/manual/en/curlfile.construct.php#114539
+ */
+if (!function_exists('curl_file_create')) {
+	function curl_file_create($filename, $mimetype = '', $postname = '') {
+		return "@$filename;filename="
+			. ($postname ?: basename($filename))
+            . ($mimetype ? ";type=$mimetype" : '');
+    }
+}
+
+/**
  * Starts the execution of the Unity Cloud Build webhook. If no content is found,
  * or the retrieval of the post headers fails, nothing happens.
  */
@@ -255,10 +268,10 @@ function ucb_upload_build($platform, $app_id, $artifact_paths, $message) {
 		'strategy' => HOCKEYAPP_UPLOAD_STRATEGY,
 		'mandatory' => HOCKEYAPP_UPDATE_MANDATORY,
 		'notes' => $message,
-		'ipa' => new CURLFile($ipa)
+		'ipa' => curl_file_create($ipa)
 	);
 	if (isset($dSYM)) {
-		$postFields['dsym'] = new CURLFile($dSYM);
+		$postFields['dsym'] = curl_file_create($dSYM);
 	}
 	
 	$ch = curl_init();
